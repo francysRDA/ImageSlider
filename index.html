@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparador de Imagens</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Comparador de Upscaling</h1>
+        <div class="comparison-slider">
+            <div class="before-image">
+                <img src="images/nativo.png" alt="Nativo">
+                <span class="image-label">Nativo</span>
+            </div>
+            <div class="after-image">
+                <img src="images/dlss_q1.png" alt="Upscaled" id="upscaled-image">
+                <span class="image-label" id="upscaled-label">DLSS</span>
+            </div>
+            <div class="slider-handle">
+                <div class="slider-arrow"></div>
+            </div>
+        </div>
+        <div class="controls">
+            <button class="control-btn active" data-image="images/dlss_q1.png" data-label="DLSS">DLSS</button>
+            <button class="control-btn" data-image="images/fsr_q1.png" data-label="FSR">FSR</button>
+            <button class="control-btn" data-image="images/xess_q1.png" data-label="XeSS">XeSS</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
