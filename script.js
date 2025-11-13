@@ -1,70 +1,54 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const slider = document.querySelector('.comparison-slider');
-    const afterImage = document.querySelector('.after-image');
-    const handle = document.querySelector('.slider-handle');
+    const nativeImage = document.getElementById('native-image');
     const upscaledImage = document.getElementById('upscaled-image');
     const upscaledLabel = document.getElementById('upscaled-label');
-    const controlButtons = document.querySelectorAll('.control-btn');
+    const upscalerSelect = document.getElementById('upscaler-select');
+    const printButtons = document.querySelectorAll('.print-btn');
 
-    let isDragging = false;
+    let currentPrint = '1';
+    let currentUpscaler = 'dlss';
 
-    const moveSlider = (x) => {
-        const sliderRect = slider.getBoundingClientRect();
-        let newX = x - sliderRect.left;
-
-        // Clamp the value between 0 and slider width
-        newX = Math.max(0, Math.min(newX, sliderRect.width));
-
-        const percentage = (newX / sliderRect.width) * 100;
-        afterImage.style.width = `${percentage}%`;
-        handle.style.left = `${percentage}%`;
+    const images = {
+        '1': {
+            native: 'images/print1/nativo.png',
+            dlss: 'images/print1/dlss_q1.png',
+            fsr: 'images/print1/fsr_q1.png',
+            xess: 'images/print1/xess_q1.png',
+        },
+        '2': {
+            native: 'images/print2/nativo2.png',
+            dlss: 'images/print2/dlss_q2.png',
+            fsr: 'images/print2/fsr_q2.png',
+            xess: 'images/print2/xess_q2.png',
+        },
+        '3': {
+            native: 'images/print3/nativo3.png',
+            dlss: 'images/print3/dlss_q3.png',
+            fsr: 'images/print3/fsr_q3.png',
+            xess: 'images/print3/xess_q3.png',
+        },
     };
 
-    // Mouse events
-    handle.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        isDragging = true;
-    });
+    const updateImages = () => {
+        nativeImage.src = images[currentPrint].native;
+        upscaledImage.src = images[currentPrint][currentUpscaler];
+        upscaledLabel.textContent = currentUpscaler.toUpperCase();
+    };
 
-    document.addEventListener('mouseup', () => {
-        isDragging = false;
-    });
-
-    document.addEventListener('mousemove', (e) => {
-        if (isDragging) {
-            moveSlider(e.clientX);
-        }
-    });
-
-    // Touch events
-    handle.addEventListener('touchstart', (e) => {
-        isDragging = true;
-        // Prevent page scrolling
-        e.preventDefault();
-    });
-
-    document.addEventListener('touchend', () => {
-        isDragging = false;
-    });
-
-    document.addEventListener('touchmove', (e) => {
-        if (isDragging && e.touches.length > 0) {
-            moveSlider(e.touches[0].clientX);
-        }
-    });
-
-    // Control buttons logic
-    controlButtons.forEach(button => {
+    printButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Update image source and label
-            const newImage = button.getAttribute('data-image');
-            const newLabel = button.getAttribute('data-label');
-            upscaledImage.src = newImage;
-            upscaledLabel.textContent = newLabel;
-
-            // Update active button state
-            controlButtons.forEach(btn => btn.classList.remove('active'));
+            currentPrint = button.dataset.print;
+            printButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
+            updateImages();
         });
     });
+
+    upscalerSelect.addEventListener('change', (e) => {
+        currentUpscaler = e.target.value;
+        updateImages();
+    });
+
+    // Initial setup
+    updateImages();
 });
