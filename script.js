@@ -6,33 +6,53 @@ document.addEventListener('DOMContentLoaded', () => {
     const printButtons = document.querySelectorAll('.print-btn');
 
     let currentPrint = '1';
-    let currentUpscaler = 'dlss';
+    let currentUpscaler = 'fsr_q';
 
     const images = {
         '1': {
-            native: 'images/print1/nativo.png',
-            dlss: 'images/print1/dlss_q1.png',
-            fsr: 'images/print1/fsr_q1.png',
-            xess: 'images/print1/xess_q1.png',
+            native: 'prints/print1/cp77_nativo.png',
+            fsr_q: 'prints/print1/cp77_fsr_q.png',
+            fsr_p: 'prints/print1/cp77_fsr_p.png',
+            xess_q: 'prints/print1/cp77_xess_q.png',
+            xess_p: 'prints/print1/cp77_xess_p.png',
         },
         '2': {
-            native: 'images/print2/nativo2.png',
-            dlss: 'images/print2/dlss_q2.png',
-            fsr: 'images/print2/fsr_q2.png',
-            xess: 'images/print2/xess_q2.png',
+            native: 'prints/print2/cp77_nativo_2.png',
+            fsr_q: 'prints/print2/cp77_fsr_q_2.png',
+            fsr_p: 'prints/print2/cp77_fsr_p_2.png',
+            xess_q: 'prints/print2/cp77_xess_q_2.png',
+            xess_p: 'prints/print2/cp77_xess_p_2.png',
         },
         '3': {
-            native: 'images/print3/nativo3.png',
-            dlss: 'images/print3/dlss_q3.png',
-            fsr: 'images/print3/fsr_q3.png',
-            xess: 'images/print3/xess_q3.png',
+            native: 'prints/print3/bf6_nativo.png',
+            fsr_q: 'prints/print3/bf6_fsr_q.png',
+            fsr_p: 'prints/print3/bf6_fsr_p.png',
+            xess_q: 'prints/print3/bf6_xess_q.png',
+            xess_p: 'prints/print3/bf6_xess_p.png',
+        },
+        '4': {
+            native: 'prints/print4/sh2_nativo.png',
+            fsr_q: 'prints/print4/sh2_fsr_q.png',
+            fsr_p: 'prints/print4/sh2_fsr_p.png',
+            xess_q: 'prints/print4/sh2_xess_q.png',
+            xess_p: 'prints/print4/sh2_xess_p.png',
+        },
+        '5': {
+            native: 'prints/print5/ln3_nativo.png',
+            fsr_q: 'prints/print5/ln3_fsr_q.png',
+            fsr_p: 'prints/print5/ln3_fsr_p.png',
+            xess_q: 'prints/print5/ln3_xess_q.png',
+            xess_p: 'prints/print5/ln3_xess_p.png',
         },
     };
 
     const updateImages = () => {
         nativeImage.src = images[currentPrint].native;
         upscaledImage.src = images[currentPrint][currentUpscaler];
-        upscaledLabel.textContent = currentUpscaler.toUpperCase();
+        const selectedOption = upscalerSelect.querySelector(`option[value="${currentUpscaler}"]`);
+        if (selectedOption) {
+            upscaledLabel.textContent = selectedOption.textContent;
+        }
     };
 
     printButtons.forEach(button => {

@@ -14,17 +14,20 @@
             <button class="print-btn active" data-print="1">Print 1</button>
             <button class="print-btn" data-print="2">Print 2</button>
             <button class="print-btn" data-print="3">Print 3</button>
+            <button class="print-btn" data-print="4">Print 4</button>
+            <button class="print-btn" data-print="5">Print 5</button>
         </div>
         <img-comparison-slider>
-            <img slot="first" id="native-image" src="images/print1/nativo.png" />
-            <img slot="second" id="upscaled-image" src="images/print1/dlss_q1.png" />
+            <img slot="first" id="native-image" src="prints/print1/cp77_nativo.png" />
+            <img slot="second" id="upscaled-image" src="prints/print1/cp77_fsr_q.png" />
             <div class="image-label" slot="first">Nativo</div>
-            <div class="image-label" id="upscaled-label" slot="second">DLSS</div>
+            <div class="image-label" id="upscaled-label" slot="second">Upscaler A Qualidade</div>
         </img-comparison-slider>
         <select id="upscaler-select">
-            <option value="dlss">DLSS</option>
-            <option value="fsr">FSR</option>
-            <option value="xess">XeSS</option>
+            <option value="fsr_q">Upscaler A Qualidade</option>
+            <option value="fsr_p">Upscaler A Performance</option>
+            <option value="xess_q">Upscaler B Qualidade</option>
+            <option value="xess_p">Upscaler B Performance</option>
         </select>
     </div>
     <script src="img-comparison-slider.js"></script>
