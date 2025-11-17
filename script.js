@@ -4,9 +4,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const upscaledLabel = document.getElementById('upscaled-label');
     const upscalerSelect = document.getElementById('upscaler-select');
     const printButtons = document.querySelectorAll('.print-btn');
+    const slider = document.querySelector('img-comparison-slider');
 
     let currentPrint = '1';
     let currentUpscaler = 'fsr_q';
+    let scale = 1;
+    let panning = false;
+    let sliding = false;
+    let pointX = 0;
+    let pointY = 0;
+    let start = { x: 0, y: 0 };
 
     const images = {
         '1': {
@@ -48,6 +55,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    function setTransform() {
+        const bounds = slider.getBoundingClientRect();
+        const max_x = (bounds.width * (scale - 1)) / 2;
+        const max_y = (bounds.height * (scale - 1)) / 2;
+
+        if (pointX > max_x) pointX = max_x;
+        if (pointX < -max_x) pointX = -max_x;
+        if (pointY > max_y) pointY = max_y;
+        if (pointY < -max_y) pointY = -max_y;
+
+        nativeImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+        upscaledImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+    }
+
     printButtons.forEach(button => {
         button.addEventListener('click', () => {
             currentPrint = button.dataset.print;
@@ -61,6 +82,59 @@ document.addEventListener('DOMContentLoaded', () => {
         currentUpscaler = e.target.value;
         updateImages();
     });
+
+    slider.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        if (e.button === 0) {
+            start = { x: e.clientX - pointX, y: e.clientY - pointY };
+            panning = true;
+        } else if (e.button === 2) {
+            sliding = true;
+        }
+    });
+
+    slider.addEventListener('mouseup', () => {
+        panning = false;
+        sliding = false;
+    });
+
+    slider.addEventListener('mousemove', (e) => {
+        e.preventDefault();
+        if (panning) {
+            pointX = (e.clientX - start.x);
+            pointY = (e.clientY - start.y);
+            setTransform();
+        } else if (sliding) {
+            const bounds = slider.getBoundingClientRect();
+            const x = e.clientX - bounds.left;
+            const exposure = (x / bounds.width) * 100;
+            if (exposure > 0 && exposure < 100) {
+                slider.style.setProperty('--exposure', `${exposure}%`);
+            }
+        }
+    });
+
+    slider.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const xs = (e.clientX - pointX) / scale;
+        const ys = (e.clientY - pointY) / scale;
+        const delta = (e.wheelDelta ? e.wheelDelta : -e.deltaY);
+
+        (delta > 0) ? (scale *= 1.2) : (scale /= 1.2);
+
+        if (scale < 1) {
+            scale = 1;
+            pointX = 0;
+            pointY = 0;
+        } else {
+            pointX = e.clientX - xs * scale;
+            pointY = e.clientY - ys * scale;
+        }
+
+        setTransform();
+    });
+
+    slider.addEventListener('contextmenu', (e) => e.preventDefault());
 
     // Initial setup
     updateImages();

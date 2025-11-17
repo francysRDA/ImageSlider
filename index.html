@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comparador de Imagens</title>
+    <title>Upscaler Slider</title>
     <link rel="stylesheet" href="img-comparison-slider.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="print-controls">
+        <button class="print-btn active" data-print="1">Print 1</button>
+        <button class="print-btn" data-print="2">Print 2</button>
+        <button class="print-btn" data-print="3">Print 3</button>
+        <button class="print-btn" data-print="4">Print 4</button>
+    </div>
     <div class="container">
-        <h1>Comparador de Upscaling</h1>
-        <div class="print-controls">
-            <button class="print-btn active" data-print="1">Print 1</button>
-            <button class="print-btn" data-print="2">Print 2</button>
-            <button class="print-btn" data-print="3">Print 3</button>
-            <button class="print-btn" data-print="4">Print 4</button>
-        </div>
         <img-comparison-slider>
             <img slot="first" id="native-image" src="prints/print1/cp77_nativo.png" />
             <img slot="second" id="upscaled-image" src="prints/print1/cp77_fsr_q.png" />
             <div class="image-label" slot="first">Nativo</div>
-            <div class="image-label" id="upscaled-label" slot="second">Upscaler A Qualidade</div>
         </img-comparison-slider>
         <select id="upscaler-select">
             <option value="fsr_q">Upscaler A Qualidade</option>
